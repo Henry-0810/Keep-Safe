@@ -1,0 +1,34 @@
+# Flask (Backend) ignores
+__pycache__/
+*.py[cod]
+*.so
+*.log
+*.sqlite3
+*.db
+instance/
+env/
+venv/
+.venv/
+*.env
+*.DS_Store
+
+# Ignore virtual environment in case it's at root
+env/
+venv/
+.venv/
+env.bak/
+*.env
+*.flaskenv
+
+# VSCode settings
+.vscode/
+
+# Logs (common logs)
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS generated files
+*.DS_Store
+*.swp
+*.swo
