@@ -1,5 +1,0 @@
-Flask
-Boto3
-Cryptography
-bcrypt
-Flask-CORS
