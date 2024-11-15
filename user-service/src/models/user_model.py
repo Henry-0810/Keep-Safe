@@ -1,18 +1,16 @@
-from config.config import DynamoDBConnection
+from config.dynamodb_connection import get_dynamodb_connection
 
 
 class UserModel:
-    _dynamodb = DynamoDBConnection()
 
     def __init__(self, username, password_hash, passwords=None):
         self.username = username
         self.password_hash = password_hash
         self.passwords = passwords if passwords else []
+        self.table = self.get_dynamodb_connection().Table("Users")
 
     def save_to_db(self):
-        table = self._dynamodb.get_table("Users")
-
-        table.put_item(
+        self.table.put_item(
             Item={
                 "username": self.username,
                 "password_hash": self.password_hash,
@@ -22,8 +20,7 @@ class UserModel:
 
     @staticmethod
     def get_user(username):
-        table = UserModel._dynamodb.get_table("Users")
-
+        table = get_dynamodb_connection().Table("Users")
         response = table.get_item(Key={"username": username})
         if "Item" in response:
             user_data = response["Item"]
