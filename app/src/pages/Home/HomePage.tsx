@@ -109,13 +109,14 @@ const HomePage = () => {
   }
 
   return (
-    <div className="p-4 font-sans bg-gray-900 min-h-screen text-white">
-      <h1 className="text-3xl font-bold mb-6 text-center">
+    <div className="p-6 font-sans bg-gray-900 min-h-screen text-white">
+      <h1 className="text-4xl font-semibold mb-6 text-center text-gray-200">
         Your Saved Passwords
       </h1>
+
       <div className="flex justify-center mb-6">
         <button
-          className="bg-green-600 hover:bg-green-500 text-white px-6 py-3 rounded-lg font-medium"
+          className="bg-green-600 hover:bg-green-500 text-white px-6 py-3 rounded-lg font-medium transition duration-300 ease-in-out transform hover:scale-105"
           onClick={() => setIsAddModalOpen(true)}
         >
           Add Password

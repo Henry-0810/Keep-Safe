@@ -1,5 +1,4 @@
 const express = require("express");
-// const setupProxies = require("./proxy");
 const proxy = require("express-http-proxy");
 const cors = require("cors");
 const app = express();
@@ -18,9 +17,11 @@ app.use(
   })
 );
 
+// Update to use service names for Docker networking
 app.use(
   "/auth",
-  proxy("http://localhost:4000", {
+  proxy("http://user-service:4000", {
+    // Change localhost to user-service
     proxyReqPathResolver: (req) => {
       return `/api/user${req.url}`;
     },
@@ -29,7 +30,8 @@ app.use(
 
 app.use(
   "/password",
-  proxy("http://localhost:4001", {
+  proxy("http://password-service:4001", {
+    // Change localhost to password-service
     proxyReqPathResolver: (req) => {
       return `/api/password${req.url}`;
     },
