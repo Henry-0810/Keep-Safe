@@ -6,8 +6,8 @@ class JWTAuthMiddleware:
     def jwt_required(func):
         def wrapper(*args, **kwargs):
             token = request.headers.get("Authorization")
-            if not token:
-                return jsonify({"error": "Token missing"}), 401
+            if not token or not token.startswith("Bearer "):
+                return jsonify({"error": "Token missing or malformed"}), 401
 
             token = token.replace("Bearer ", "")
             user_data = TokenService.verify_token(token)

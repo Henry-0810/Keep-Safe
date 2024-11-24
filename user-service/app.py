@@ -3,7 +3,8 @@ from flask_cors import CORS
 from routes.user_routes import user_routes
 
 app = Flask(__name__)
-CORS(app)
+app.config["SECRET_KEY"] = "henry_super_key_0810"
+
 
 app.register_blueprint(user_routes, url_prefix="/api/user")
 

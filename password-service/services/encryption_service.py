@@ -1,39 +1,28 @@
-import boto3
-from botocore.exceptions import ClientError
-
-def get_kms_key_id():
-    secret_name = "prod/App/password-service"
-    region_name = "eu-west-1"
-
-    client = boto3.client(
-        service_name='secretsmanager',
-        region_name=region_name
-    )
-
-    try:
-        get_secret_value_response = client.get_secret_value(SecretId=secret_name)
-    except ClientError as e:
-        print(f"Error retrieving secret: {e}")
-        raise e
-
-    secret = get_secret_value_response['SecretString']
-    return secret 
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad, unpad
+from Crypto.Random import get_random_bytes
+import base64
 
 class EncryptionService:
-    def __init__(self):
-        self.kms = boto3.client("kms")
-        self.key_id = get_kms_key_id()
-    
-    def encrypt(self, password):
-        response = self.kms.encrypt(
-            KeyId=self.key_id,
-            Plaintext=password.encode('utf-8'),
-        )
-        return response['CiphertextBlob']
+    def __init__(self, key=None):
+        self.key = bytes.fromhex("f2fdbdff652de9743f20ece480c7bb6253e90e231fbc9f0d96ac2e60cffc9ad1")
 
-    def decrypt(self, encrypted_password):
-        response = self.kms.decrypt(
-            KeyId=self.key_id,
-            CiphertextBlob=encrypted_password
-        )
-        return response['Plaintext'].decode('utf-8')
+    def encrypt(self, password: str):
+        iv = get_random_bytes(AES.block_size)  
+        cipher = AES.new(self.key, AES.MODE_CBC, iv)  
+
+        encrypted_password = cipher.encrypt(pad(password.encode(), AES.block_size)) 
+        encrypted_data = {
+            "iv": base64.b64encode(iv).decode('utf-8'),
+            "ciphertext": base64.b64encode(encrypted_password).decode('utf-8')
+        }
+        return encrypted_data
+
+    def decrypt(self, encrypted_data: dict):
+        iv = base64.b64decode(encrypted_data["iv"])
+        ciphertext = base64.b64decode(encrypted_data["ciphertext"])
+
+        cipher = AES.new(self.key, AES.MODE_CBC, iv)
+        decrypted_password = unpad(cipher.decrypt(ciphertext), AES.block_size) 
+        return decrypted_password.decode('utf-8')
+
