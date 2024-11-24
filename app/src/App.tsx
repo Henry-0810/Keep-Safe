@@ -1,25 +1,45 @@
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import LoginPage from './pages/Auth/LoginPage'
-import HomePage from './pages/Home/HomePage';
-import LandingPage from './pages/Home/LandingPage';
-import SignupPage from './pages/Auth/SignUpPage';
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
+import LoginPage from "./pages/Auth/LoginPage";
+import HomePage from "./pages/Home/HomePage";
+import LandingPage from "./pages/Home/LandingPage";
+import SignupPage from "./pages/Auth/SignUpPage";
+import Navbar from "./components/Navbar";
+import { useAuth } from "./contexts/authContext";
 
 const App = () => {
-    const isAuthenticated = localStorage.getItem('token'); // Mock auth check
+  const { token } = useAuth();
 
-    return (
-        <Router>
-            <Routes>
-                <Route path="/" element={<LandingPage />} />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/signup" element={<SignupPage />} />
-                <Route
-                    path="/display"
-                    element={isAuthenticated ? <HomePage /> : <Navigate to="/login" />}
-                />
-            </Routes>
-        </Router>
-    );
+  return (
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route
+          path="/"
+          element={token ? <Navigate to="/dashboard" /> : <LandingPage />}
+        />
+        <Route
+          path="/login"
+          element={token ? <Navigate to="/dashboard" /> : <LoginPage />}
+        />
+        <Route
+          path="/signup"
+          element={token ? <Navigate to="/dashboard" /> : <SignupPage />}
+        />
+
+        <Route path="/dashboard" element={<PrivateRoute />} />
+      </Routes>
+    </Router>
+  );
+};
+
+const PrivateRoute = () => {
+  const { token } = useAuth();
+  return token ? <HomePage /> : <Navigate to="/login" />;
 };
 
 export default App;

@@ -23,19 +23,19 @@ def generate_password():
     
 def add_password():
     data = request.get_json()
-    username = data.get("username")
+    email = data.get("email")  
     password_name = data.get("password_name")
     plaintext_password = data.get("password")
 
-    if not all([username, password_name, plaintext_password]):
+    if not all([email, password_name, plaintext_password]):
         return jsonify({"error": "Missing required fields"}), 400
 
-    existing_password_name = PasswordModel.check_password(username, password_name)
+    existing_password_name = PasswordModel.check_password(email, password_name)
 
     if existing_password_name:
         return jsonify({"error": "Password Name already exists"}), 409
 
-    password = PasswordModel(username)
+    password = PasswordModel(email)
     
     try:
         password.add_password(password_name, plaintext_password)
@@ -45,14 +45,14 @@ def add_password():
     
 def update_password():
     data = request.get_json()
-    username = data.get("username")
+    email = data.get("email")  
     password_name = data.get("password_name")
     plaintext_password = data.get("password")
 
-    if not all([username, password_name, plaintext_password]):
+    if not all([email, password_name, plaintext_password]):
         return jsonify({"error": "Missing required fields"}), 400
     
-    password = PasswordModel(username)
+    password = PasswordModel(email)
 
     try:
         password.update_password(password_name, plaintext_password)
@@ -62,14 +62,14 @@ def update_password():
 
 def delete_password():
     data = request.get_json()
-    username = data.get("username")
+    email = data.get("email") 
     password_name = data.get("password_name")
 
-    if not all([username, password_name]):
+    if not all([email, password_name]):
         return jsonify({"error": "Missing required fields"}), 400
 
     try:
-        password = PasswordModel(username)
+        password = PasswordModel(email)
         password.delete_password(password_name)
         return jsonify({"message": f"Password '{password_name}' deleted successfully"}), 200
     except Exception as e:
@@ -77,19 +77,36 @@ def delete_password():
 
 
 def get_passwords():
-    username = request.args.get("username")
+    email = request.args.get("email")  
 
-    if not username:
-        return jsonify({"error": "Username is required"}), 400
+    if not email:
+        return jsonify({"error": "Email is required"}), 400
 
     try:
-        password = PasswordModel(username)
+        password = PasswordModel(email)
         passwords = password.get_passwords()
-        return jsonify({"passwords": passwords}), 200
+
+        password_names = [{"password_name": p["password_name"], "created_at": p["created_at"]} for p in passwords]
+        
+        return jsonify({"passwords": password_names}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-
-
     
+def get_password():
+    data = request.get_json()
+    email = data.get("email")  
+    password_name = data.get("password_name")
 
+    if not all([email, password_name]):
+        return jsonify({"error": "Missing required fields"}), 400
+
+    try:
+        password = PasswordModel(email)
+        password_data = password.get_password(password_name)
+        
+        return jsonify({"password": password_data}), 200
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
