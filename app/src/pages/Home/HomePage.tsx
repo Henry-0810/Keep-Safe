@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import usePasswords from "../../hooks/useGetPasswords";
+import usePasswords from "../../hooks/Password/useGetPasswords";
 import { useAuth } from "../../contexts/authContext";
-import usePasswordOperations from "../../hooks/usePasswordOperations";
-import { getPassword } from "../../services/passwordService";
-import LoadingSpinner from "../../components/LoadingSpinner";
-import PasswordList from "../../components/PasswordList";
-import PasswordModal from "../../components/PasswordModal";
+import usePasswordOperations from "../../hooks/Password/usePasswordOperations";
+import { getPassword } from "../../api/Password/passwordService";
+import LoadingSpinner from "../../components/Common/LoadingSpinner";
+import PasswordList from "../../components/Password/PasswordList";
+import PasswordModal from "../../components/Password/PasswordModal";
 
 const HomePage = () => {
   const { passwords, loading, error, refetchPasswords } = usePasswords();

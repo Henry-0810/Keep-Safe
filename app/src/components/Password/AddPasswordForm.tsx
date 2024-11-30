@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { generatePassword } from "../services/passwordService";
+import { generatePassword } from "../../api/Password/passwordService";
 
 interface AddPasswordFormProps {
   onClose: () => void;

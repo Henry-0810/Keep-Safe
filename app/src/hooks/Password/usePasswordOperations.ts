@@ -1,6 +1,6 @@
 // usePasswordOperations.ts
 import { useState } from "react";
-import { addPassword, updatePassword, deletePassword } from "../services/passwordService";
+import { addPassword, updatePassword, deletePassword } from "../../api/Password/passwordService";
 
 const usePasswordOperations = (email: string) => {
     const [isAdding, setIsAdding] = useState(false);

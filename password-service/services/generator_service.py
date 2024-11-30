@@ -28,12 +28,3 @@ class PasswordGenerator:
 
     def generate(self):
         return self._strategy.generate_password()
-
-generator = PasswordGenerator(EightCharPassword())
-print(generator.generate())  
-
-generator.set_strategy(TwelveCharPassword())
-print(generator.generate()) 
-
-generator.set_strategy(SixteenCharPassword())
-print(generator.generate()) 

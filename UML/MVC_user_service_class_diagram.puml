@@ -1,0 +1,46 @@
+@startuml MVC_class_diagram
+
+class UserModel {
+    +id: str
+    +username: str
+    +email: str
+    +password_hash: str
+    +passwords: list
+    +table: DynamoDB.Table
+    +save_to_db(): void
+    +get_user(email: str): UserModel
+}
+
+class DynamoDBTable {
+    +email: str
+    +username: str
+    +hashed_password: str
+    +passwords: list
+    +put_item(Item: dict): void
+    +get_item(Key: dict): dict
+}
+
+class TokenService {
+    +generate_token(data: dict, expires_in: int): str
+    +verify_token(token: str): dict
+}
+
+class TokenBuilder {
+    +payload: dict
+    +add_data(data: dict): TokenBuilder
+    +set_issued_at(): TokenBuilder
+    +set_expiry(expires_in: int): TokenBuilder
+    +build(): dict
+}
+
+class EncryptionService {
+    +hash_password(password: str): str
+    +verify_password(password: str, password_hash: str): bool
+}
+
+UserModel --> DynamoDBTable : interacts with
+TokenService --> TokenBuilder : uses
+TokenService --> UserModel : authenticates using
+EncryptionService --> UserModel : hashes passwords
+
+@enduml

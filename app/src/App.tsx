@@ -8,7 +8,7 @@ import LoginPage from "./pages/Auth/LoginPage";
 import HomePage from "./pages/Home/HomePage";
 import LandingPage from "./pages/Home/LandingPage";
 import SignupPage from "./pages/Auth/SignUpPage";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/Common/Navbar";
 import { useAuth } from "./contexts/authContext";
 
 const App = () => {

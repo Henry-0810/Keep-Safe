@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
-import { useAuth } from "../contexts/authContext";
-import { getPasswords } from "../services/passwordService"; // Import the service functions
+import { useAuth } from "../../contexts/authContext";
+import { getPasswords } from "../../api/Password/passwordService"; // Import the service functions
 
 type Password = {
   created_at: string;

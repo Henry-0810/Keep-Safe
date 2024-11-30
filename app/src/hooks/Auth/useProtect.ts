@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "../contexts/authContext";
+import { useAuth } from "../../contexts/authContext";
 import { useNavigate } from "react-router-dom";
 
 const useProtect = () => {
