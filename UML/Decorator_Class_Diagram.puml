@@ -1,0 +1,22 @@
+@startuml Decorator_Class_Diagram
+class TokenBuilder {
+    - payload: map
+    + add_data(data): TokenBuilder
+    + set_issued_at(): TokenBuilder
+    + set_expiry(expires_in: int): TokenBuilder
+    + build(): map
+}
+
+class TokenService {
+    + generate_token(data, expires_in=3600): string
+    + verify_token(token: string): map
+}
+
+class JWTAuthMiddleware {
+    + jwt_required(func): function
+}
+
+TokenService -- TokenBuilder : uses >
+JWTAuthMiddleware -- TokenService : uses >
+
+@enduml

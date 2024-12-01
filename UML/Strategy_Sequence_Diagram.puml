@@ -1,0 +1,22 @@
+@startuml Strategy_Sequence_Diagram
+actor User
+participant "PasswordGenerator" as Generator
+participant "EightCharPassword" as EightChar
+participant "TwelveCharPassword" as TwelveChar
+participant "SixteenCharPassword" as SixteenChar
+
+User -> Generator : set_strategy(EightCharPassword)
+Generator -> EightChar : generate_password()
+EightChar -> Generator : return password
+Generator -> User : return password
+
+User -> Generator : set_strategy(TwelveCharPassword)
+Generator -> TwelveChar : generate_password()
+TwelveChar -> Generator : return password
+Generator -> User : return password
+
+User -> Generator : set_strategy(SixteenCharPassword)
+Generator -> SixteenChar : generate_password()
+SixteenChar -> Generator : return password
+Generator -> User : return password
+@enduml

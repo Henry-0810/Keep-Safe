@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { useAuth } from "../../contexts/authContext";
-import { getPasswords } from "../../api/Password/passwordService"; // Import the service functions
+import { getPasswords } from "../../api/Password/passwordService"; 
 
 type Password = {
   created_at: string;
@@ -23,11 +23,9 @@ const usePasswords = () => {
     setLoading(true);
     try {
       const response = await getPasswords(email);
-      console.log("Fetched passwords:", response.passwords); // Debug log
       setPasswords(response.passwords || []);
       setError(null);
     } catch (err: any) {
-      console.error("Error fetching passwords:", err);
       setError(err.message || "An unknown error occurred.");
     } finally {
       setLoading(false);

@@ -1,0 +1,16 @@
+@startuml Decorator_Sequence_Diagram
+actor User
+participant JWTAuthMiddleware
+participant TokenService
+participant TokenBuilder
+participant ProtectedRoute
+
+User -> JWTAuthMiddleware : Make Request with Token
+JWTAuthMiddleware -> TokenService : Extract Token from Header
+JWTAuthMiddleware -> TokenService : verify_token(token)
+TokenService -> TokenBuilder : build token
+TokenService -> JWTAuthMiddleware : return user data
+JWTAuthMiddleware -> ProtectedRoute : pass user data
+ProtectedRoute -> User : Response with User Info
+
+@enduml

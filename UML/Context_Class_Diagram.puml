@@ -1,0 +1,47 @@
+@startuml Context_Class_Diagram
+skinparam classAttributeIconSize 0
+
+package "React Context API" {
+    class AuthContext {
+        - token: string | null
+        - email: string | null
+        ..
+        + setToken(token: string, rememberMe: boolean): void
+        + updateEmail(email: string): void
+        + logout(): void
+    }
+
+    class AuthProvider {
+        - token: string | null
+        - email: string | null
+        ..
+        + {static} createContext<T>(): Context<T>
+        + useState<T>(initialValue: T): [T, (value: T) => void]
+        + useEffect(callback: () => void, deps: any[]): void
+        + children: ReactNode
+    }
+
+    interface useAuth {
+        + token: string | null
+        + email: string | null
+        + setToken(token: string, rememberMe?: boolean): void
+        + updateEmail(email: string): void
+        + logout(): void
+    }
+
+    AuthContext <|-- AuthProvider
+    AuthProvider .down.> useAuth : "Provides"
+    useAuth .down.> Component : "Used by"
+}
+
+package "Components Using Auth Context" {
+    class Component {
+        - props: any
+        ..
+        + accessAuth(): void
+    }
+
+    Component --> AuthContext : "Accesses"
+}
+
+@enduml

@@ -1,0 +1,20 @@
+@startuml Proxy_Sequence_Diagram
+actor User
+entity "Frontend (React App)" as FE
+entity "API Gateway" as AG
+entity "User Service (Backend)" as US
+entity "Password Service (Backend)" as PS
+
+User -> FE: Initiates request (e.g., GET /auth)
+FE -> AG: Forwards request to API Gateway (GET /auth)
+AG -> US: Proxy request to User Service (GET /api/user/auth)
+US -> AG: Respond with User Service data
+AG -> FE: Return response to frontend (user data)
+
+User -> FE: Initiates password-related request (e.g., POST /password)
+FE -> AG: Forwards request to API Gateway (POST /password)
+AG -> PS: Proxy request to Password Service (POST /api/password)
+PS -> AG: Respond with password data
+AG -> FE: Return response to frontend (password data)
+
+@enduml

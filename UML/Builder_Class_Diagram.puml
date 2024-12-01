@@ -1,0 +1,17 @@
+@startuml Builder_Class_Diagram
+class TokenBuilder {
+    - payload: dict
+    + __init__()
+    + add_data(data: any): TokenBuilder
+    + set_issued_at(): TokenBuilder
+    + set_expiry(expires_in: int = 3600): TokenBuilder
+    + build(): dict
+}
+
+class TokenService {
+    + generate_token(data: any, expires_in: int = 3600): str
+    + verify_token(token: str): dict | None
+}
+
+TokenService .-> TokenBuilder : uses
+@enduml

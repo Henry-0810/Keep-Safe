@@ -1,0 +1,24 @@
+@startuml Proxy_Activity_Diagram
+|Frontend|
+start
+:User submits login request;
+|API Gateway|
+:Receive request from Frontend;
+:Check if request is for /auth or /password;
+if (Request is /auth?) then (yes)
+  :Forward to User Service;
+  |User Service|
+  :Process login request;
+  :Return authentication response;
+else (no)
+  :Forward to Password Service;
+  |Password Service|
+  :Process password request;
+  :Return password data;
+endif
+|API Gateway|
+:Return response to Frontend;
+|Frontend|
+:Display response to User;
+stop
+@enduml

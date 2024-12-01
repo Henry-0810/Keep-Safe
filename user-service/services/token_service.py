@@ -1,5 +1,5 @@
 import jwt
-import datetime
+import datetime, pytz
 from flask import current_app
 
 class TokenBuilder:
@@ -11,11 +11,11 @@ class TokenBuilder:
         return self
 
     def set_issued_at(self):
-        self.payload["iat"] = datetime.datetime.utcnow()
+        self.payload["iat"] = datetime.datetime.now(pytz.UTC)
         return self
 
     def set_expiry(self, expires_in=3600):
-        self.payload["exp"] = datetime.datetime.utcnow() + datetime.timedelta(seconds=expires_in)
+        self.payload["exp"] = datetime.datetime.now(pytz.UTC) + datetime.timedelta(seconds=expires_in)
         return self
 
     def build(self):

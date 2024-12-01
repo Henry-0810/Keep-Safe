@@ -1,0 +1,31 @@
+@startuml Strategy_Class_Diagram
+class PasswordStrategy {
+    <<abstract>>
+    +generate_password() : string
+}
+
+class EightCharPassword {
+    +generate_password() : string
+}
+
+class TwelveCharPassword {
+    +generate_password() : string
+}
+
+class SixteenCharPassword {
+    +generate_password() : string
+}
+
+class PasswordGenerator {
+    -_strategy : PasswordStrategy
+    +__init__(strategy: PasswordStrategy)
+    +set_strategy(strategy: PasswordStrategy)
+    +generate() : string
+}
+
+PasswordStrategy <|-- EightCharPassword
+PasswordStrategy <|-- TwelveCharPassword
+PasswordStrategy <|-- SixteenCharPassword
+PasswordGenerator o-- PasswordStrategy
+
+@enduml
