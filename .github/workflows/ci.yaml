@@ -50,7 +50,7 @@ jobs:
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v1
         with:
-          organization: your-sonarcloud-org
+          organization: henry-0810
           token: ${{ secrets.SONAR_TOKEN }}
-          projectKey: your-sonarcloud-project-key
-          projectName: your-project-name
+          projectKey: Henry-0810_Keep-Safe
+          projectName: Keep-Safe
