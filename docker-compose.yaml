@@ -1,0 +1,24 @@
+services:
+  user-service:
+    build: ./user-service
+    ports:
+      - "4000:4000"
+    environment:
+      - .env
+
+  password-service:
+    build: ./password-service
+    ports:
+      - "4001:4001"
+    environment:
+      - .env
+
+  frontend:
+    build: ./app
+    ports:
+      - "3000:3000"
+
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "3001:3001"
