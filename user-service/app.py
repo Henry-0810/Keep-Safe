@@ -4,7 +4,11 @@ from flask_cors import CORS
 from routes.user_routes import user_routes
 
 app = Flask(__name__)
-app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "default_fallback_key")
+secret_key = os.getenv("SECRET_KEY")
+if not secret_key:
+    raise RuntimeError("SECRET_KEY environment variable is not set")
+
+app.config["SECRET_KEY"] = secret_key
 
 
 app.register_blueprint(user_routes, url_prefix="/api/user")
