@@ -1,9 +1,11 @@
 import sys
 import os
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), 'user_service')))
+
 import pytest
-from services.encryption_service import EncryptionService
+from user_service.services.encryption_service import EncryptionService
+
 
 @pytest.fixture
 def encryption_service():

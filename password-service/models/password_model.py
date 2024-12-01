@@ -2,7 +2,7 @@ from datetime import datetime
 from config.dynamodb_connection import get_dynamodb_connection
 from services.encryption_service import EncryptionService
 
-
+DATETIME_FORMAT = "%d/%m/%Y %H:%M:%S"
 class PasswordModel:
     def __init__(self, email):
         self.email = email  
@@ -13,8 +13,8 @@ class PasswordModel:
         new_password = {
             "password_name": password_name,
             "password_hash": self.encryption_service.encrypt(password),
-            "created_at": datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
-            "updated_at": datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
+            "created_at": datetime.now().strftime(DATETIME_FORMAT),
+            "updated_at": datetime.now().strftime(DATETIME_FORMAT),
         }
 
         self.table.update_item(
@@ -52,7 +52,7 @@ class PasswordModel:
         for password in passwords:
             if password["password_name"] == password_name:
                 password["password_hash"] = self.encryption_service.encrypt(new_password)
-                password["updated_at"] = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+                password["updated_at"] = datetime.now().strftime(DATETIME_FORMAT)
                 found = True
                 break
 

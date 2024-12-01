@@ -3,6 +3,7 @@ from models.password_model import PasswordModel
 from services.generator_service import PasswordGenerator, EightCharPassword, TwelveCharPassword, SixteenCharPassword
 
 generator = PasswordGenerator(EightCharPassword()) 
+MISSING_FIELD = "Missing required fields"
 
 def generate_password():
     data = request.get_json()
@@ -28,7 +29,7 @@ def add_password():
     plaintext_password = data.get("password")
 
     if not all([email, password_name, plaintext_password]):
-        return jsonify({"error": "Missing required fields"}), 400
+        return jsonify({"error": MISSING_FIELD}), 400
 
     existing_password_name = PasswordModel.check_password(email, password_name)
 
@@ -50,7 +51,7 @@ def update_password():
     plaintext_password = data.get("password")
 
     if not all([email, password_name, plaintext_password]):
-        return jsonify({"error": "Missing required fields"}), 400
+        return jsonify({"error": MISSING_FIELD}), 400
     
     password = PasswordModel(email)
 
@@ -66,7 +67,7 @@ def delete_password():
     password_name = data.get("password_name")
 
     if not all([email, password_name]):
-        return jsonify({"error": "Missing required fields"}), 400
+        return jsonify({"error": MISSING_FIELD}), 400
 
     try:
         password = PasswordModel(email)
@@ -99,7 +100,7 @@ def get_password():
     password_name = data.get("password_name")
 
     if not all([email, password_name]):
-        return jsonify({"error": "Missing required fields"}), 400
+        return jsonify({"error": MISSING_FIELD}), 400
 
     try:
         password = PasswordModel(email)

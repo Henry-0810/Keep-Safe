@@ -2,10 +2,11 @@ import sys
 import os
 
 # Add the project root to the Python path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), 'user_service')))
+
 import pytest
 from unittest.mock import patch, MagicMock
-from services.token_service import TokenService
+from user_service.services.token_service import TokenService
 import jwt
 import datetime
 from flask import Flask
@@ -13,7 +14,7 @@ from flask import Flask
 @pytest.fixture(scope="module")
 def app():
     app = Flask(__name__)
-    app.config["SECRET_KEY"] = "test_secret_key" 
+    app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "default_fallback_key")
     return app
 
 @pytest.fixture

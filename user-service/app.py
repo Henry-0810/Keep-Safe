@@ -1,9 +1,10 @@
+import os
 from flask import Flask
 from flask_cors import CORS
 from routes.user_routes import user_routes
 
 app = Flask(__name__)
-app.config["SECRET_KEY"] = "henry_super_key_0810"
+app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "default_fallback_key")
 
 
 app.register_blueprint(user_routes, url_prefix="/api/user")
